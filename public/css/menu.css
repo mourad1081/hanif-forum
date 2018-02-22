@@ -1,0 +1,39 @@
+/**
+ * Dans cette feuille, il y aura toutes les variables.
+ */
+@font-face {
+  font-family: 'Yanoneka';
+  src: url("../fonts/YanoneKaffeesatz-Light.ttf") format("truetype"); }
+/**
+ * Dans cette feuille, il y aura toutes les fonctions/mixins
+ */
+#menu {
+  padding: 10px 0 0;
+  font-size: 22px;
+  text-transform: uppercase;
+  color: white;
+  font-family: 'Yanoneka', serif; }
+  #menu img {
+    height: 64px; }
+  #menu .navbar {
+    padding-bottom: 0; }
+    #menu .navbar .nav-item {
+      color: white;
+      line-height: 42px;
+      text-decoration: none;
+      -webkit-transition: all .3s;
+      -moz-transition: all .3s;
+      -o-transition: all .3s;
+      transition: all .3s; }
+      #menu .navbar .nav-item:hover {
+        background-color: red;
+        color: red; }
+  #menu #social {
+    font-size: 12px;
+    position: absolute;
+    color: #5c8190;
+    right: 10px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    text-transform: none; }
+
+/*# sourceMappingURL=menu.css.map */

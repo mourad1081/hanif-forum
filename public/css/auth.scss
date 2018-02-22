@@ -1,0 +1,21 @@
+@import "variables";
+@import "helpers";
+
+#register {
+  background-color: #fff;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  @include box-shadow("0 5px 20px -1px grey");
+  border-bottom:solid 3px $orange;
+  border-top:solid 3px $orange;
+  width: 50%;
+  min-height:initial;
+  padding-bottom: 20px;
+
+
+
+  .header {
+    margin: 0 -15px 10px;
+    text-align: center;
+  }
+}

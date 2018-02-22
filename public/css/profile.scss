@@ -1,0 +1,47 @@
+@import "variables";
+@import "helpers";
+
+#profile {
+  margin-top: -450px;
+  background-color: white;
+  position: relative;
+  z-index: 1;
+  @include box-shadow("0 4px 10px 0px grey");
+  padding: 0;
+  border-bottom:solid 5px $light-green;
+
+  #profile-cover {
+    height: 300px;
+    position: relative;
+    margin-top: 0;
+    background: url('../img/1.jpg') top center no-repeat;
+    background-size: cover;
+    padding: 0;
+  }
+
+  #profile-body-container {
+    border-top:solid 5px $light-green;
+    padding: 50px;
+
+    #profile-sidebar {
+      padding-top: 10px;
+      margin-top: -100px;
+      background-color: #f8ecdc;
+      border-bottom:solid $light-green 5px;
+      @include box-shadow("0 0 15px 6px #525252");
+      .progress {
+        background-color: #2a9d8f5e;
+      }
+    }
+
+    #profile-body {
+      .about {
+        background-color: #f8ecdc;
+        padding: 20px;
+        min-height: 200px;
+        @include border-radius("3px");
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

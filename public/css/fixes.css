@@ -1,0 +1,22 @@
+/*
+ * Cette feuille corrige les imperfections des plugins.
+ */
+.cke_bottom {
+  border-top: none !important;
+  background: white !important; }
+
+#cke_content {
+  border: none;
+  border-left: solid #EEE 1px;
+  border-right: solid #EEE 1px;
+  border-top: solid #EEE 1px; }
+
+.cke_top {
+  border-bottom: none !important;
+  background: #e8cfac !important; }
+
+a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active {
+  background: #c7a56e !important;
+  border: 1px #c7a56e solid !important; }
+
+/*# sourceMappingURL=fixes.css.map */

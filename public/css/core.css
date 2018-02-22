@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/**
+ * Feuille de style du site. Ne pas modifier.
+ */
+/*
+ * Cette feuille corrige les imperfections des plugins.
+ */
+.cke_bottom {
+  border-top: none !important;
+  background: white !important; }
+
+#cke_content {
+  border: none;
+  border-left: solid #EEE 1px;
+  border-right: solid #EEE 1px;
+  border-top: solid #EEE 1px; }
+
+.ui.items > .item > .content > .description {
+  height: 2rem;
+  overflow: hidden; }
+
+/**
+ * Dans cette feuille, il y aura toutes les variables.
+ */
+/**
+ * Dans cette feuille, il y aura toutes les fonctions/mixins
+ */
+/**
+ * Dans cette feuille de style, il y aura tous les styles communs ├á chaque page.
+ */
+/**
+ * Dans cette feuille, il y aura toutes les variables.
+ */
+body, html {
+  margin: 0;
+  padding: 0; }
+
+.bg-dark-green {
+  background-color: #264653; }
+
+.bg-light-green {
+  background-color: #2a9d8f; }
+
+.bg-yellow {
+  background-color: #e9c46a; }
+
+.bg-gold {
+  background-color: #f4a261; }
+
+.bg-orange {
+  background-color: #e76f51; }
+
+#admin-page {
+  height: 100vh; }
+  #admin-page #sidebar {
+    padding: 0; }
+    #admin-page #sidebar .sidebar-menu {
+      padding: 10px; }
+    #admin-page #sidebar .background {
+      color: white;
+      position: relative;
+      z-index: 9; }
+      #admin-page #sidebar .background .header {
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5); }
+        #admin-page #sidebar .background .header img {
+          width: 32px;
+          height: 32px;
+          vertical-align: middle;
+          display: inline-block; }
+  #admin-page #users-section .role.admin {
+    background-color: #ffe4e4;
+    font-weight: bold; }
+
+/*# sourceMappingURL=core.css.map */

@@ -1,0 +1,38 @@
+#admin-page {
+  height: 100vh;
+  #sidebar {
+    padding: 0;
+    .sidebar-menu {
+      padding: 10px;
+    }
+    .background {
+      color: white;
+      position: relative;
+      z-index: 9;
+      .header {
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        img {
+          width: 32px;
+          height: 32px;
+          vertical-align: middle;
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+
+  #users-section {
+    .role.admin {
+      background-color: #ffe4e4;
+      font-weight: bold;
+    }
+  }
+
+}

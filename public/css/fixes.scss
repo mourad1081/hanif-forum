@@ -1,0 +1,21 @@
+/*
+ * Cette feuille corrige les imperfections des plugins.
+ */
+.cke_bottom {
+  border-top: none !important;
+  background: white !important;
+}
+
+.cke_top {
+  border-bottom: none !important;
+  background: transparent !important;
+}
+
+
+#cke_content {
+  margin: 10px;
+}
+
+.cke_button_icon.cke_button__emojione_icon {
+  background: url('../plugins/ckeditor/plugins/icons.png') no-repeat -1px -4995px !important;
+}

@@ -1,0 +1,36 @@
+@import "helpers";
+
+#admin {
+  padding-top: 50px;
+
+
+
+  @include responsive(xs) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  @include responsive(md) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  @include responsive(lg) {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+
+
+  background-color: #fff;
+
+  #container-manage-categories, #container-manage-users {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 25px;
+    .table-wrapper {
+      height: 400px;
+      overflow: auto;
+    }
+  }
+}
