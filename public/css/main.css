@@ -241,6 +241,23 @@ a {
   margin: 0 -15px 15px;
   text-align: center; }
 
+.iziToast {
+  -webkit-border-radius: 45px;
+  -moz-border-radius: 45px;
+  -o-border-radius: 45px;
+  border-radius: 45px;
+  -webkit-box-shadow: 0 0px 15px -4px black;
+  -moz-box-shadow: 0 0px 15px -4px black;
+  box-shadow: 0 0px 15px -4px black; }
+
+.iziToast:after {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; }
+
+.iziToast > .iziToast-progressbar {
+  display: none; }
+
 /**
  * Dans cette feuille, il y aura toutes les variables.
  */
@@ -372,6 +389,10 @@ a {
       -webkit-box-shadow: 0 0 15px 6px #525252;
       -moz-box-shadow: 0 0 15px 6px #525252;
       box-shadow: 0 0 15px 6px #525252; }
+      #profile #profile-body-container #profile-sidebar #profile-picture {
+        position: relative; }
+        #profile #profile-body-container #profile-sidebar #profile-picture:hover {
+          background-color: rgba(0, 0, 0, 0.5); }
       #profile #profile-body-container #profile-sidebar .progress {
         background-color: #2a9d8f5e; }
     #profile #profile-body-container #profile-body .about {
@@ -419,7 +440,7 @@ a {
 /**
  * Dans cette feuille, il y aura toutes les fonctions/mixins
  */
-#register {
+#register, #login {
   background-color: #fff;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -431,7 +452,7 @@ a {
   width: 50%;
   min-height: initial;
   padding-bottom: 20px; }
-  #register .header {
+  #register .header, #login .header {
     margin: 0 -15px 10px;
     text-align: center; }
 

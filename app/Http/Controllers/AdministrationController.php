@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\User;
 use Illuminate\Http\Request;
 use App;
 
@@ -95,5 +96,55 @@ class AdministrationController extends Controller
         else
             // returns -1 when the father isn't visible itself.
             return "-1";
+    }
+
+    public function banUser(User $user)
+    {
+        $user->is_ban = 1;
+        return (string) $user->save();
+    }
+
+    public function unbanUser(User $user)
+    {
+        $user->is_ban = 0;
+        return (string) $user->save();
+    }
+
+    public function setUserGrade(Request $request, User $user)
+    {
+        $this->validate($request, [
+            "custom_grade" => "required|string"
+        ]);
+
+        $user->custom_grade = $request->input("custom_grade");
+
+        return (string) $user->save();
+    }
+
+    public function setUserRole(Request $request, User $user)
+    {
+        $this->validate($request, [
+            "role_id" => "required|numeric"
+        ]);
+        $user->role_id = $request->input("role_id");
+        return (string) $user->save();
+    }
+
+    public function removePicture(User $user)
+    {
+        $user->picture = null;
+        return (string) $user->save();
+    }
+
+    public function activateUser(User $user)
+    {
+        $user->activated = 1;
+        return (string) $user->save();
+    }
+
+    public function deactivateUser(User $user)
+    {
+        $user->activated = 0;
+        return (string) $user->save();
     }
 }

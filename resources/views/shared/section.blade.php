@@ -73,8 +73,8 @@ function toTable($category, string $class)
         <p class="text-center" style="margin-top: 15px;"><a href="{{ url('/sections/' . $current_category->slug . '/create-discussion') }}"><i class="fa fa-plus"></i> Créer une discussion</a></p>
 
     </div>
-
-    @if($categories)
+    <!-- > 1 because there is always at least the current category -->
+    @if(isset($categories) and count($categories) > 1)
         <hr>
         @foreach($categories as $category)
             <?php /** @var Category $category['value'] */?>

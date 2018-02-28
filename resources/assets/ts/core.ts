@@ -62,8 +62,9 @@ export class Notification {
         let settings: IziToastSettings = {
             title: title,
             message: message,
-            position: 'topRight'
+            position: 'topRight',
         };
+
 
         switch(type) {
             case TypeNotification.Info:    iziToast.info(settings); break;

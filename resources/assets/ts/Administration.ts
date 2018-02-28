@@ -4,25 +4,37 @@ import 'izitoast'
 
 export class Administration {
 
-    private btnArchiveCategory: JQuery;
-    private btnUpdateCategory: JQuery;
-    private btnValidateUpdateCategory: JQuery;
-    private formupdateCategory: JQuery;
-    private currentCategory: JQuery;
-
-    private modalUpdateCategory: any;
-    private currentCategoryId: any;
+    private btnArchiveCategory:JQuery;
+    private btnUpdateCategory:JQuery;
+    private btnValidateUpdateCategory:JQuery;
+    private formupdateCategory:JQuery;
+    private currentCategory:JQuery;
+    private modalUpdateRole:any;
+    private modalUpdateGrade:any;
+    private modalUpdateCategory:any;
+    private currentCategoryId:any;
     private updating:boolean;
+    private tmpPseudo:string;
+
+    private ban:Function;
+    private unban:Function;
+    private activate:Function;
+    private deactivate:Function;
+    private removePicture:Function;
+    private setGrade:Function;
+    private setRole:Function;
 
     constructor() {
 
         this.btnUpdateCategory   = $('.btn-update-category');
         this.btnArchiveCategory  = $('.btn-archive-category');
         this.modalUpdateCategory = $('#modal-update-category');
+        this.modalUpdateRole     = $('#modal-set-role');
+        this.modalUpdateGrade    = $('#modal-set-grade');
         this.formupdateCategory  = $('#form-update-category');
         this.btnValidateUpdateCategory = $('#btn-validate-update-category');
         this.currentCategoryId = {};
-
+        this.tmpPseudo = null;
         this.updating = false;
 
         this.modalUpdateCategory.iziModal({
@@ -31,6 +43,121 @@ export class Administration {
             closeButton: true,
             headerColor: '#ff9269'
         });
+
+        this.modalUpdateRole.iziModal({
+            title: '<i class="fas fa-pencil-alt"></i> Modifier le rôle',
+            closeOnEscape: true,
+            closeButton: true,
+            headerColor: '#ff9269'
+        });
+
+        this.modalUpdateGrade.iziModal({
+            title: '<i class="fas fa-pencil-alt"></i> Modifier le grade personnalisé',
+            closeOnEscape: true,
+            closeButton: true,
+            headerColor: '#ff9269'
+        });
+
+        this.ban = (pseudo) => {
+            new HttpRequest('/users/' + pseudo + '/ban', null, (result) => {
+                let table = $('#table-manage-users');
+                // We set the row as red
+                table.find('tr[data-user-pseudo="'+ pseudo +'"]').addClass('table-danger');
+                table.find('.dropdown-menu[data-user-pseudo="'+ pseudo +'"] button[data-action="ban"]')
+                     .html('<i class="fas fa-ban"></i> Dé-bannir')
+                     .attr('data-action', 'unban');
+                new Notification("OK", pseudo + " a été banni avec succès !", TypeNotification.Success);
+            }, (xhr, error) => {
+                new Notification("ban after ajax error", pseudo, TypeNotification.Info);
+            }).get();
+        };
+
+        this.unban = (pseudo) => {
+            new HttpRequest('/users/' + pseudo + '/unban', null, (result) => {
+                let table = $('#table-manage-users');
+                // We set the row as red
+                table.find('tr[data-user-pseudo="'+ pseudo +'"]').removeClass('table-danger');
+                table.find('.dropdown-menu[data-user-pseudo="'+ pseudo +'"] button[data-action="unban"]')
+                    .html('<i class="fas fa-ban"></i> Bannir')
+                    .attr('data-action', 'ban');
+                new Notification("OK", pseudo + " a été dé-banni avec succès !", TypeNotification.Success);
+            }, (xhr, error) => {
+                new Notification("unban after ajax error", pseudo, TypeNotification.Info);
+            }).get();
+        };
+
+        this.activate = (pseudo) => {
+            new HttpRequest('/users/' + pseudo + '/activate', null, (result) => {
+                let table = $('#table-manage-users');
+                // We set the row as red
+                table.find('tr[data-user-pseudo="'+ pseudo +'"]').removeClass('table-warning');
+                table.find('.dropdown-menu[data-user-pseudo="'+ pseudo +'"] button[data-action="activate"]')
+                    .html('<i class="fas fa-check"></i> Invalider son inscription')
+                    .attr('data-action', 'deactivate');
+                new Notification("OK", "Le compte de " + pseudo + " a été activé avec succès !", TypeNotification.Success);
+            }, (xhr, error) => {
+                new Notification("activate after ajax error", pseudo, TypeNotification.Info);
+            }).get();
+        };
+
+        this.deactivate = (pseudo) => {
+            new HttpRequest('/users/' + pseudo + '/deactivate', null, (result) => {
+                let table = $('#table-manage-users');
+                // We set the row as red
+                table.find('tr[data-user-pseudo="'+ pseudo +'"]').addClass('table-warning');
+                table.find('.dropdown-menu[data-user-pseudo="'+ pseudo +'"] button[data-action="deactivate"]')
+                    .html('<i class="fas fa-check"></i> Valider son inscription')
+                    .attr('data-action', 'deactivate');
+                new Notification("OK", "Le compte de " + pseudo + " a été désactivé avec succès !", TypeNotification.Success);
+            }, (xhr, error) => {
+                new Notification("deactivate after ajax error", pseudo, TypeNotification.Info);
+            }).get();
+        };
+
+        this.setRole = (pseudo) => {
+            this.tmpPseudo = pseudo;
+            this.modalUpdateRole.iziModal('open');
+        };
+
+        $('#btn-validate-role').on('click', (event) => {
+            event.preventDefault();
+
+            let data = {
+                role_id: $('#role_id').val()
+            };
+            new HttpRequest('/users/' + this.tmpPseudo + '/set-role', data, (result) => {
+                location.reload();
+            }, (xhr, error) => {
+                new Notification("role after ajax error", this.tmpPseudo, TypeNotification.Info);
+            }).post(this.modalUpdateRole.find('[name=_token]').val());
+        });
+
+
+
+        this.setGrade = (pseudo) => {
+            this.tmpPseudo = pseudo;
+            this.modalUpdateGrade.iziModal('open');
+        };
+
+        $('#btn-validate-grade').on('click', (event) => {
+            event.preventDefault();
+            let data = {
+                custom_grade: $('#custom_grade').val()
+            };
+            new HttpRequest('/users/' + this.tmpPseudo + '/set-grade', data, (result) => {
+                location.reload();
+            }, (xhr, error) => {
+                new Notification("role after ajax error", this.tmpPseudo, TypeNotification.Info);
+            }).post(this.modalUpdateRole.find('[name=_token]').val());
+        });
+
+        this.removePicture = (pseudo) => {
+            new HttpRequest('/users/' + pseudo + '/remove-picture', null, (result) => {
+                new Notification("OK", "La photo de profil de " + pseudo + " a été supprimée avec succès !", TypeNotification.Success);
+            }, (xhr, error) => {
+                new Notification("ban after ajax error", pseudo, TypeNotification.Info);
+            }).get();
+        };
 
         // Open the modal for creating a category
         $(document).on('click', '#btn-add-category', (event) => {
@@ -279,6 +406,23 @@ export class Administration {
             };
 
             iziToast.show(settings);
+        });
+
+        $(document).on('click', '.action-user', (event) => {
+            let action = event.target.getAttribute('data-action');
+            let pseudoUser = $(event.target.parentNode).attr('data-user-pseudo');
+            switch (action)
+            {
+                case 'ban': this.ban(pseudoUser); break;
+                case 'unban': this.unban(pseudoUser); break;
+                case 'activate': this.activate(pseudoUser); break;
+                case 'deactivate': this.deactivate(pseudoUser); break;
+                case 'set-role': this.setRole(pseudoUser); break;
+                case 'set-grade': this.setGrade(pseudoUser); break;
+                case 'remove-picture': this.removePicture(pseudoUser); break;
+                case 'get-profile': location.href = event.target.getAttribute('data-url'); break;
+                default: new Notification("Ouupps...", "Commande inconnue.", TypeNotification.Warning); break;
+            }
         });
     }
 }

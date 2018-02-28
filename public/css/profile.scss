@@ -29,6 +29,15 @@
       background-color: #f8ecdc;
       border-bottom:solid $light-green 5px;
       @include box-shadow("0 0 15px 6px #525252");
+
+      #profile-picture {
+        position: relative;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
       .progress {
         background-color: #2a9d8f5e;
       }

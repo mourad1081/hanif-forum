@@ -62,7 +62,7 @@
                 <div class="col-12 col-md-10 post-content speech-bubble">
                     @if($post->user_id == Auth::user()->id or Auth::user()->isAtLeastVIP())
                         <p class="text-right">
-                            <small>Posté {{ $current_discussion->created_at->diffForHumans() }}, le <em>{{ $current_discussion->created_at->formatLocalized('%d/%m/%Y') }}</em></small>
+                            <small>Posté {{ $post->created_at->diffForHumans() }}, le <em>{{ $post->created_at->formatLocalized('%d/%m/%Y') }}</em></small>
                             <small><a data-post-id="{{ $post->post_id }}" class="link-update-message" href="#"><i class="fas fa-pencil-alt"></i> Modifier</a></small>
                         </p>
                     @endif

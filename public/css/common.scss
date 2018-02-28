@@ -197,3 +197,15 @@ a {
   }
 
 }
+
+.iziToast {
+  @include border-radius("45px");
+  @include box-shadow("0 0px 15px -4px black");
+}
+
+.iziToast:after {
+  @include box-shadow("none");
+}
+.iziToast>.iziToast-progressbar {
+  display: none;
+}

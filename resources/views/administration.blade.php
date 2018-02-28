@@ -123,8 +123,20 @@
 
             <div id="container-manage-users" class="col-12">
                 <h4 class="h4 title">Gestion des utilisateurs</h4>
+                <hr>
+                <label class="control-label col-12" for="find-user"><i class="fas fa-search"></i> Chercher un utilisateur</label>
+                <input id="find-user"
+                       type="text"
+                       class="form-control col-12"
+                       name="find-user"
+                       placeholder="Pseudo ou email de l'utilisateur" />
+                <hr>
+                <ul>
+                    <li>Une ligne <span class="text-warning">en jaune</span> indique un utilisateur encore non validé.</li>
+                    <li>Une ligne <span class="text-danger">en rouge</span> indique un utilisateur banni.</li>
+                </ul>
                 <div class="table-wrapper">
-                    <table class="table table-striped table-hover table-sm ">
+                    <table id="table-manage-users" class="table table-striped table-hover table-sm ">
                         <thead>
                         <tr>
                             <th scope="col">Actions</th>
@@ -138,28 +150,33 @@
                         </thead>
                         <tbody>
                         @foreach($users as $user)
-                            <tr>
-                                <td>
+
+                            <tr class="{{ $user->activated == '0' ? "table-warning" : "" }} {{ $user->is_ban == '1' ? 'table-danger' : '' }}" data-user-pseudo="{{ $user->pseudo }}">
+                                <td data-user-pseudo="{{ $user->pseudo }}">
                                     <div class="btn-group">
                                         <button type="button"
-                                                class="btn btn-warning dropdown-toggle"
+                                                class="btn bg-orange text-white dropdown-toggle"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
                                                 aria-expanded="false">
                                             Choisir une action
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-left">
-                                            <button class="dropdown-item" type="button"><i class="fas fa-ban"></i> Bannir</button>
-                                            <button class="dropdown-item" type="button"><i class="fas fa-check"></i> Valider son inscription</button>
-                                            <button class="dropdown-item" type="button"><i class="fas fa-tags"></i> Changer son rôle</button>
-                                            <button class="dropdown-item" type="button"><i class="fas fa-graduation-cap"></i> Donner un grade</button>
-                                            <button class="dropdown-item" type="button"><i class="fas fa-user"></i> Voir le profil</button>
-                                            <button class="dropdown-item" type="button"><i class="fas fa-images"></i> Retirer la photo</button>
+                                        <div class="dropdown-menu dropdown-menu-left" data-user-id="{{ $user->id }}" data-user-pseudo="{{ $user->pseudo }}">
+                                            <button data-action="{{ $user->is_ban == '1' ? 'unban' : 'ban' }}" class="action-user dropdown-item" type="button"><i class="fas fa-ban"></i> {{ $user->is_ban == '1' ? 'Dé-bannir' : 'Bannir' }}</button>
+                                            <button data-action="{{ $user->activated == '1' ? 'deactivate' : 'activate' }}" class="action-user dropdown-item" type="button"><i class="fas fa-check"></i> {{ $user->activated == '1' ? 'Invalider' : 'Valider' }} son inscription</button>
+                                            <button data-action="set-role" class="action-user dropdown-item" type="button"><i class="fas fa-tags"></i> Changer son rôle</button>
+                                            <button data-action="set-grade" class="action-user dropdown-item" type="button"><i class="fas fa-graduation-cap"></i> Donner un grade</button>
+                                            <button data-action="get-profile" data-url="{{ url('/users/' . $user->pseudo) }}" class="action-user dropdown-item" type="button"><i class="fas fa-user"></i> Voir le profil</button>
+                                            <button data-action="remove-picture" class="action-user dropdown-item" type="button"><i class="fas fa-images"></i> Retirer la photo</button>
                                         </div>
                                     </div>
                                 </td>
                                 <td>{{ $user->id != null ? $category->id : '===' }}</td>
-                                <td>{{ $user->pseudo }}</td>
+                                <td class="td-pseudo">
+                                    {!! $user->role_id == '1' ? '<img src="' . asset("img/admin.png") . '"style="width: 16px;vertical-align:initial;"data-toggle="tooltip"data-placement="top"title="Administrateur">' : '' !!}
+                                    {!! $user->role_id == '3' ? '<img src="' . asset("img/vip.png") . '"style="width: 16px;vertical-align:initial;"data-toggle="tooltip"data-placement="top"title="Modérateur">' : '' !!}
+                                    {{ $user->pseudo }}
+                                </td>
                                 <td>{{ $user->grade }}</td>
                                 <td>{{ $user->custom_grade ?? '/' }}</td>
                                 <td>{{ $user->total_answers }}</td>
@@ -171,6 +188,53 @@
                 </div>
             </div>
         </div>
+
+        <div id="modal-set-role">
+            <div class="container" style="padding-top: 10px;">
+                <div class="row">
+                    <form action="{{ '#' }}" method="post" class="form col-12">
+                        {!! csrf_field() !!}
+                        <div class="form-group">
+                            <label for="role_id" class="title"><i class="fas fa-balance-scale"></i> Veuillez sélectionner un rôle</label>
+                            <select class="form-control" id="role_id" name="role_id">
+                                <option value="2">Utilisateur normal</option>
+                                <option value="3">Modérateur (VIP)</option>
+                                <option value="1">Administrateur</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="text-center" style="margin-top: 10px;margin-bottom: 10px;">
+                            <button id="btn-validate-role" class="btn bg-orange text-white"><i class="fas fa-check"></i> Valider</button>
+                            <button class="btn btn-default" data-izimodal-close="">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-set-grade">
+            <div class="container" style="padding-top: 10px;">
+                <div class="row">
+                    <form action="{{ '#' }}" method="post" class="form col-12">
+                        {!! csrf_field() !!}
+                        <div class="form-group">
+                            <label for="custom_grade" class="title"><i class="fas fa-tag"></i> Veuillez entrer un grade personnalisé</label>
+                            <input id="custom_grade"
+                                   name="custom_grade"
+                                   type="text"
+                                   class="form-control col-12"
+                                   placeholder="Grand émir glorifié par les roi babyloniens">
+                        </div>
+                        <hr>
+                        <div class="text-center" style="margin-top: 10px;margin-bottom: 10px;">
+                            <button id="btn-validate-grade" class="btn bg-orange text-white"><i class="fas fa-check"></i> Valider</button>
+                            <button class="btn btn-default" data-izimodal-close="">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
         <div id="modal-update-category">
             <div class="container" style="padding-top: 10px;">
@@ -225,4 +289,10 @@
             </div>
         </div>
     </main>
+@endsection
+
+@section('more_js')
+    <script>
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
 @endsection

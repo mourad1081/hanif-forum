@@ -6,7 +6,7 @@
 
 
     <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="{{ asset('img/logo.png') }}" alt="LOGO">  {{ config('app.name', 'Hanaf - Forum') }} - BETA
+        <img src="{{ asset('img/logo.png') }}" alt="LOGO">  {{ config('app.name', 'Hanif - Forum') }} - BETA
     </a>
 
     <button class="navbar-toggler"
@@ -17,7 +17,7 @@
             aria-expanded="false"
             aria-label="Toggle navigation">
         @if(Auth::check())
-            <img class="rounded float-left" src="{{ asset('img/user-m.png') }}" alt="#"> {{ Auth::user()->pseudo }}
+            <img class="rounded float-left" src="{{ asset(Auth::user()->picture) }}" alt="#"> {{ Auth::user()->pseudo }}
         @else
             Menu
         @endif
@@ -32,7 +32,7 @@
             @else
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('profil') }}">
-                        <img class="rounded float-left" src="{{ asset('img/user-m.png') }}" alt="#"> Mon profil
+                        <img class="rounded float-left" src="{{ asset(Auth::user()->picture) }}" alt="#"> Mon profil
                     </a>
                 </li>
                 @restrictedArea('vip')

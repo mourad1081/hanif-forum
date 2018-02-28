@@ -19,8 +19,19 @@ Route::group(['middleware' => 'member'], function () {
     Route::post('/messages/update/{post}', 'HomeController@updateMessage');
 });
 
-Route::get('/administration', 'AdministrationController@index');
-Route::post('/categories/{category}/update', 'AdministrationController@updateCategory');
-Route::post('/categories/create', 'AdministrationController@createCategory');
-Route::get('/categories/{category}/archive', 'AdministrationController@archiveCategory');
+Route::get('/administration',                  'AdministrationController@index');
+Route::post('/categories/{category}/update',   'AdministrationController@updateCategory');
+Route::post('/categories/create',              'AdministrationController@createCategory');
+Route::get('/categories/{category}/archive',   'AdministrationController@archiveCategory');
 Route::get('/categories/{category}/unarchive', 'AdministrationController@unarchiveCategory');
+
+Route::get('/users/{user}/activate',       'AdministrationController@activateUser');
+Route::get('/users/{user}/deactivate',     'AdministrationController@deactivateUser');
+Route::get('/users/{user}/remove-picture', 'AdministrationController@removePicture');
+Route::post('/users/{user}/set-role',      'AdministrationController@setUserRole');
+Route::post('/users/{user}/set-grade',     'AdministrationController@setUserGrade');
+Route::get('/users/{user}/ban',            'AdministrationController@banUser');
+Route::get('/users/{user}/unban',          'AdministrationController@unbanUser');
+Route::post('/users/{user}/update-picture','ProfileController@uploadImage');
+
+

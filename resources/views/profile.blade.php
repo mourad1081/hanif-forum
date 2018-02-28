@@ -12,7 +12,9 @@
                 color: white;
                 padding: 20px 10px 10px;
                 font-family: 'Merriweather', 'Times New Roman', serif;">
-            <h1 class="h1">Mon profil</h1>
+            <h1 class="h1">
+                {{ URL::current() == url('/mon-profil') ? 'Mon profil' : 'Profil de ' . $user->pseudo }}
+            </h1>
         </div>
     </div>
 
@@ -25,14 +27,26 @@
 
                 <div id="profile-sidebar-wrapper" class="col-12 col-md-3 text-center">
                     <div id="profile-sidebar">
-                        <img height="64px" src="{{ asset('img/user-m.png') }}" alt="profile picture">
-                        <p><strong>{{ Auth::user()->pseudo }}</strong></p>
+                        <img id="profile-picture" height="64px" src="{{ asset($user->picture) }}" alt="profile picture">
+                        <!-- Si c'est le profil du gars connecté qui visite  -->
+                        @if(URL::current() == url('/mon-profil'))
+                            <form id="upload-picture"
+                                  method="post"
+                                  action="{{ url('/users/' . $user->pseudo . '/update-picture') }}">
+                                {!! csrf_field() !!}
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                </div>
+                            </form>
+                        @endif
+                        <hr>
+                        <p><strong>{{ $user->pseudo }}</strong></p>
 
                         <p class="text-center grade">
-                            {{ Auth::user()->grade }}
+                            {{ $user->grade }}
                         </p>
                         <p>Prochain grade: <strong>{{ $nextGrade->title }}</strong></p>
-                        <p>{{ Auth::user()->total_answers }} / {{ $nextGrade->min_posts }} <i class="fa fa-comments"></i></p>
+                        <p>{{ $user->total_answers }} / {{ $nextGrade->min_posts }} <i class="fa fa-comments"></i></p>
                         <div style="padding: 10px;">
                             <div class="progress" style="height: 20px;">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-light-green"
@@ -49,10 +63,10 @@
 
 
                 <div id="profile-body" class="col-12 col-md-9">
-                    @if(Auth::user()->activated == '1')
+                    @if($user->activated == '1')
                         <h5 class="h5 title"><i class="fab fa-leanpub"></i> À propos</h5>
                         <div class="about">
-                            <em>{!! Auth::user()->about ?? "Rien d'écrit :'(" !!}</em>
+                            <em>{!! $user->about ?? "Rien d'écrit :'(" !!}</em>
                         </div>
 
                         <hr>
@@ -93,4 +107,25 @@
             </div>
         </div>
     </main>
+@endsection
+
+@section('more_css')
+    <link rel="stylesheet" href="{{ asset("plugins/dropzone/dropzone.min.css") }}" type="text/css">
+@endsection
+
+@section('more_js')
+    <script src="{{ asset('plugins/dropzone/dropzone.min.js') }}"></script>
+    <script>
+        $(function () {
+            var dropzone = $('#upload-picture').dropzone({
+                init: function() {
+                    this.on("success", function(file, response) {
+                        if (response === '1')
+                            location.reload();
+                    });
+                }
+            });
+            dropzone.addClass('dropzone');
+        });
+    </script>
 @endsection
