@@ -22,12 +22,15 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * a
      */
     public function index()
     {
-        $cats = App\Category::where('visible', '1')->get();
+        /** @var Category[] $cats */
+        $cats = App\Category::where('visible', '1')
+                            ->orderBy('min_access_level')
+                            ->orderBy('priority')
+                            ->get();
 
         return view('home')->with([
             "categories"       => self::generateHierarchyWithoutDepth($cats),
@@ -75,10 +78,6 @@ class HomeController extends Controller
     }
 
 
-    /**
-     * @param Category $cat
-     * @return $this
-     */
     public function getSection(Category $cat)
     {
         // On ne peut pas accéder à une catégorie VIP si on n'a pas le droit et

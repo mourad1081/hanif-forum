@@ -20,7 +20,9 @@ class AdministrationController extends Controller
 
     public function index()
     {
-        $categories = App\Category::all();
+        $categories = App\Category::orderBy('priority')
+                                  ->orderBy('min_access_level')
+                                  ->get();
         $users = App\User::all();
         $grades = App\Grade::all();
 
