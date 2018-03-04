@@ -66,6 +66,19 @@ function toTable($category, string $class)
         <img style="width: 80%" src="{{ asset('img/basmala.jpg') }}" alt="#">
     </div>
 
+    <div class="col-12 alert alert-primary">
+        To do :
+        <ul>
+            <li>Modifier son post original</li>
+            <li>Supprimer/archiver une discussion</li>
+            <li>Compléter le pied de page</li>
+            <li>Améliorer le design</li>
+            <li>Mettre à jour sa signature/à propos</li>
+            <li>Paginer les discussions, etc. lorsque ça dépasse X messages par page</li>
+            <li>Bugs graphiques à corriger (photo de profil, button modifier photo de profil)</li>
+        </ul>
+    </div>
+    
     @if (Auth::check() and Auth::user()->activated == '0')
         <p class="alert alert-warning text-center" style="font-weight: 600;">
             Votre compte n'a pas encore été validé par nos modérateurs.

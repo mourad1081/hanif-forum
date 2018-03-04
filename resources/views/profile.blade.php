@@ -66,6 +66,13 @@
                     @if($user->activated == '1')
                         <h5 class="h5 title"><i class="fab fa-leanpub"></i> À propos</h5>
                         <div class="about">
+                            @if(URL::current() == url('/mon-profil'))
+                                <div class="text-right">
+                                    <a class="btn" href="#" data-izimodal-open="#modal-about">
+                                        <i class="fas fa-pencil-alt"></i> Modifier
+                                    </a>
+                                </div>
+                            @endif
                             <em>{!! $user->about ?? "Rien d'écrit :'(" !!}</em>
                         </div>
 
@@ -106,6 +113,26 @@
                 </div>
             </div>
         </div>
+
+        <div id="modal-about">
+            <div class="container" style="padding-top: 10px;">
+                <div class="row">
+                    <form action="{{ '#' }}" method="post" class="form col-12">
+                        {!! csrf_field() !!}
+                        <div class="form-group">
+                            <label for="about" class="title"><i class="fab fa-leanpub"></i> Veuillez entrer un nouvel "à propos"</label>
+                            <textarea id="about" rows="10" name="about" class="form-control col-12">{!! $user->about !!}</textarea>
+                        </div>
+                        <hr>
+                        <div class="text-center" style="margin-top: 10px;margin-bottom: 10px;">
+                            <button id="btn-validate-grade" class="btn bg-orange text-white"><i class="fas fa-check"></i> Valider</button>
+                            <button class="btn btn-default" data-izimodal-close="">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
 @endsection
 
@@ -126,6 +153,13 @@
                 }
             });
             dropzone.addClass('dropzone');
+
+            $('#modal-about').iziModal({
+                title: '<i class="fas fa-pencil-alt"></i> Modifier votre bio',
+                closeOnEscape: true,
+                closeButton: true,
+                headerColor: '#ff9269'
+            });
         });
     </script>
 @endsection
