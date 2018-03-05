@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="main-cover container-fluid">
     <div style="width: 100%;
                 height: 100%;

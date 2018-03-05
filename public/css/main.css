@@ -63,6 +63,12 @@ main {
   font-family: 'Merriweather', "Times New Roman", serif;
   min-height: 100vh; }
 
+h1 {
+  font-size: 2rem; }
+
+h2 {
+  font-size: 1.5rem; }
+
 .footer {
   font-family: 'Merriweather', "Times New Roman", serif;
   padding: 20px;
@@ -242,10 +248,6 @@ a {
   text-align: center; }
 
 .iziToast {
-  -webkit-border-radius: 45px;
-  -moz-border-radius: 45px;
-  -o-border-radius: 45px;
-  border-radius: 45px;
   -webkit-box-shadow: 0 0px 15px -4px black;
   -moz-box-shadow: 0 0px 15px -4px black;
   box-shadow: 0 0px 15px -4px black; }

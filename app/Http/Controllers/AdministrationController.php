@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Discussion;
 use App\User;
 use Illuminate\Http\Request;
 use App;
@@ -148,5 +149,17 @@ class AdministrationController extends Controller
     {
         $user->activated = 0;
         return (string) $user->save();
+    }
+
+    public function pinDiscussion(Discussion $discussion)
+    {
+        $discussion->sticked_at_top = 1;
+        return $discussion->save() ? back() : abort(500);
+    }
+
+    public function unpinDiscussion(Discussion $discussion)
+    {
+        $discussion->sticked_at_top = 0;
+        return $discussion->save() ? back() : abort(500);
     }
 }

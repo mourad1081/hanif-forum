@@ -78,7 +78,7 @@ function toTable($category, string $class)
             <li>Bugs graphiques à corriger (photo de profil, button modifier photo de profil)</li>
         </ul>
     </div>
-    
+
     @if (Auth::check() and Auth::user()->activated == '0')
         <p class="alert alert-warning text-center" style="font-weight: 600;">
             Votre compte n'a pas encore été validé par nos modérateurs.

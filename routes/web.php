@@ -1,6 +1,10 @@
 <?php
 
 
+if (env('APP_ENV') === 'production') {
+    URL::forceSchema('https');
+}
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
@@ -34,4 +38,6 @@ Route::get('/users/{user}/ban',            'AdministrationController@banUser');
 Route::get('/users/{user}/unban',          'AdministrationController@unbanUser');
 Route::post('/users/{user}/update-picture','ProfileController@uploadImage');
 
+Route::get('/discussions/{discussion}/pin', 'AdministrationController@pinDiscussion');
+Route::get('/discussions/{discussion}/unpin', 'AdministrationController@unpinDiscussion');
 

@@ -26,6 +26,12 @@ main {
   min-height:100vh;
 
 }
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
 
 .footer {
   font-family: 'Merriweather', "Times New Roman", serif;
@@ -199,7 +205,6 @@ a {
 }
 
 .iziToast {
-  @include border-radius("45px");
   @include box-shadow("0 0px 15px -4px black");
 }
 
@@ -209,3 +214,4 @@ a {
 .iziToast>.iziToast-progressbar {
   display: none;
 }
+

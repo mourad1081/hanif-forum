@@ -2,7 +2,7 @@
 
     <div class="header">
         <a href="{{ url('/sections/' . $current_category->slug)  }}">
-            <i class="fas fa-arrow-circle-left"></i> Revenir dans la section {{ $current_category->title }}
+            <i class="fas fa-arrow-circle-left"></i> Retour <!-- Revenir dans la section {{ $current_category->title }} -->
         </a>
 
         <img src="{{ asset('img/basmala.png') }}" alt="BismiLlahi rahmaani rahiim" height="32px"  class="float-right">
@@ -16,19 +16,48 @@
             <small class="post-author-grade d-block">{{ $author->grade ?? 'lol' }}</small>
             <small><i class="fa fa-comments"></i> {{ $author->total_answers }} posts</small>
             <hr>
+            @restrictedArea("admin")
+                @if($current_discussion->sticked_at_top == '1')
+                <a href="{{ url('/discussions/' . $current_discussion->id . '/unpin') }}">
+                    <img src="{{ asset('img/pin-512.png') }}"
+                         style="width: 16px;"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Désépingler ce fil" data-original-title="">
+                    Désépingler
+                </a>
+                @else
+                <a href="{{ url('/discussions/' . $current_discussion->id . '/pin') }}">
+                    <img src="{{ asset('img/pin-512.png') }}"
+                         style="width: 16px;"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Épingler ce fil" data-original-title="">
+                    Épingler
+                </a>
+                @endif
+            @endrestrictedArea
+            <hr>
             <h1 class="meta-informations"><i class="far fa-heart"></i></h1>
             {{ $current_discussion->likes  }} Mentions "j'aime"
         </div>
-
         <div class="col-12 col-md-10 post-content">
-            <h2 style="border-bottom: solid 1px #264653; color: #264653;padding-bottom: 10px;"><strong>{{ $current_discussion->title }}</strong></h2>
+            <h2 style="border-bottom: solid 1px #264653; color: #264653;padding-bottom: 10px;">
+                @if($current_discussion->sticked_at_top == '1')
+                    <img src="{{ asset('img/pin-512.png') }}"
+                         style="width: 16px; vertical-align: top;"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Épingler ce fil" data-original-title="">
+                @endif
+                <strong>{{ $current_discussion->title }}</strong>
+            </h2>
             @if($current_discussion->user_id == Auth::user()->id or Auth::user()->isAtLeastVIP())
                 <p class="meta-informations text-right">
                     <small>Posté {{ $current_discussion->created_at->diffForHumans() }}, le <em>{{ $current_discussion->created_at->formatLocalized('%d/%m/%Y') }}</em></small>
                     <small><a data-discussion-id="{{ $current_discussion->id }}" class="link-update-discussion" href="#"><i class="fas fa-pencil-alt"></i> Modifier</a></small>
                 </p>
             @endif
-            <hr class="hr">
             <div id="content-{{ $current_discussion->id }}" class="content">
                 {!! $current_discussion->content !!}
             </div>
@@ -46,7 +75,9 @@
     </div>
 
 
-
+    <div class="col-12">
+        <hr>
+    </div>
 
     <div class="container-fluid">
         @foreach($posts as $post)

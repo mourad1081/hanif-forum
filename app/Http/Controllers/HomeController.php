@@ -96,7 +96,6 @@ class HomeController extends Controller
                                          ->orderByDesc('discussion_updated_at')
                                          ->get();
         $current_category = $cat;
-
         return view('home')->with([
             "categories"       => self::generateHierarchyWithoutDepth($cats, $cat->parent_id),
             "discussions"      => $discussions,

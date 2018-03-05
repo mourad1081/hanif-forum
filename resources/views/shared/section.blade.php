@@ -61,7 +61,7 @@ function toTable($category, string $class)
 <div id="forum" class="container-fluid" style="position: relative;">
     <div class="header">
         <a href="{{ url('/')  }}" >
-            <i class="fas fa-arrow-circle-left"></i> Revenir à la page principale
+            <i class="fas fa-arrow-circle-left"></i> Retour <!-- Revenir à la page principale -->
         </a>
 
         <img src="{{ asset('img/basmala.png') }}" alt="BismiLlahi rahmaani rahiim" height="32px" style="position: absolute; right: 10px">
@@ -73,8 +73,9 @@ function toTable($category, string $class)
         <p class="text-center" style="margin-top: 15px;"><a href="{{ url('/sections/' . $current_category->slug . '/create-discussion') }}"><i class="fa fa-plus"></i> Créer une discussion</a></p>
 
     </div>
-    <!-- > 1 because there is always at least the current category -->
-    @if(isset($categories) and count($categories) > 1)
+    <!-- > 1 because there is always at least the current category
+        /// La fonction reset retourne le 1er element dans un dico -->
+    @if(isset($categories) and count($categories) == 1 and count(reset($categories)['children']) > 0)
         <hr>
         @foreach($categories as $category)
             <?php /** @var Category $category['value'] */?>
